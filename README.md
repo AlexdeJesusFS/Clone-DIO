@@ -1,5 +1,5 @@
 # Desafio React Clonando página da DIO
-
+O Desafio é criar uma tela de cadastro para a incrível plataforma da Dio. Hands-on!
 
 ## Stacks
 ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
