@@ -1,67 +1,82 @@
-import { useNavigate  } from "react-router-dom";
-import { MdEmail, MdLock } from 'react-icons/md'
-import { Button } from '../../components/Button';
-import { Header } from '../../components/Header';
-import { Input } from '../../components/Input';
-import { api } from '../../services/api';
+//import { Link } from "react-router-dom";
+import { Button } from "../../components/Button";
+import { Header } from "../../components/Header";
+import { Input } from "../../components/Input";
+
+import { Container, Wrapper, Column, Row, Title, TitleLogin, SubTitleLogin, CriarConta, EsqueciSenha } 
+from "./styles";
+
+import { MdEmail, MdLock } from "react-icons/md";
+import { useNavigate } from "react-router-dom"
 
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+import { api } from '../../services/api'
 
 
-import { Container, Title, Column, TitleLogin, SubtitleLogin, EsqueciText, CriarText, Row, Wrapper } from './styles';
+const schema = yup.object({
+  email: yup.string().email('email não é valido').required('email é obrigatorio'),
+  password: yup.number().min(5, 'Senha minima de 5 caracteres').required('senha é obrigatorio'),
+}).required();
 
-const Login = () => {
 
-    const navigate = useNavigate()
+function Login() {
+  const colorIcons = '#8647AD';
 
-    const { control, handleSubmit, formState: { errors  } } = useForm({
-        reValidateMode: 'onChange',
-        mode: 'onChange',
-    });
+  const navigate = useNavigate();
 
-    const onSubmit = async (formData) => {
-        try{
-            const {data} = await api.get(`/users?email=${formData.email}&senha=${formData.senha}`);
-            
-            if(data.length && data[0].id){
-                navigate('/feed') 
-                return
-            }
+  const { control, handleSubmit, formState: { errors, isValid } } = useForm({
+    resolver: yupResolver(schema),
+    mode: 'onChange'
+  })
+  console.log(isValid, errors)
 
-            alert('Usuário ou senha inválido')
-        }catch(e){
-            //TODO: HOUVE UM ERRO
-        }
-    };
+  const onSubmit = async formData => {
+    console.log('data: ', formData)
+    try {
+      const { data } = await api.get(`users?email=${formData.email}&password=${formData.password}`)
+      if (data.length === 1) {
+        navigate('/feed')
+      } else {
+        alert('Email ou senha inválido!')
+      }
+    } catch {
+      alert('Houve um erro durante login! Tente novamente.')
+    }
+  }
 
-    console.log('errors', errors);
 
-    return (<>
-        <Header />
-        <Container>
-            <Column>
-                <Title>A plataforma para você aprender com experts, dominar as principais tecnologias
-                 e entrar mais rápido nas empresas mais desejadas.</Title>
-            </Column>
-            <Column>
-                <Wrapper>
-                <TitleLogin>Faça seu cadastro</TitleLogin>
-                <SubtitleLogin>Faça seu login e make the change._</SubtitleLogin>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input placeholder="E-mail" leftIcon={<MdEmail />} name="email"  control={control} />
-                    {errors.email && <span>E-mail é obrigatório</span>}
-                    <Input type="password" placeholder="Senha" leftIcon={<MdLock />}  name="senha" control={control} />
-                    {errors.senha && <span>Senha é obrigatório</span>}
-                    <Button title="Entrar" variant="secondary" type="submit"/>
-                </form>
-                <Row>
-                    <EsqueciText>Esqueci minha senha</EsqueciText>
-                    <CriarText>Criar Conta</CriarText>
-                </Row>
-                </Wrapper>
-            </Column>
-        </Container>
-    </>)
+  return (
+    <>
+      <Header />
+      <Container>
+        <Column>
+          <Title>
+            A plataforma para você aprender com experts, dominar  as principais tecnologias e entrar mais rápido nas empresas mais desejadas.
+          </Title>
+        </Column>
+        <Column>
+          <Wrapper>
+            <TitleLogin>Faça o seu cadastro</TitleLogin>
+            <SubTitleLogin>Make the change._</SubTitleLogin>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Input name="email" errorMessage={errors?.email?.message} 
+              control={control} placeholder="E-mail" leftIcon={<MdEmail color={colorIcons} />}/>
+              <Input name="password" errorMessage={errors?.password?.message} 
+              control={control} placeholder="Senha" type="password" leftIcon={<MdLock color={colorIcons} />}/>
+              <Button variant="secondary" type='submit'>Entrar</Button>
+            </form>
+            <Row>
+              <EsqueciSenha>Esqueci a minha senha</EsqueciSenha>
+              <CriarConta onClick={() => navigate('/register')}>Criar uma conta</CriarConta>
+            </Row>
+          </Wrapper>
+        </Column>
+      </Container>
+    </>
+  )
 }
 
 export { Login }

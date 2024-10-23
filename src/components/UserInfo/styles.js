@@ -1,32 +1,32 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Container = styled.div`
-    display:flex;
+    display: flex;
     flex-direction: row;
     margin-bottom: 24px;
-` 
+`
 
 export const UserPicture = styled.img`
     width: 32px;
     height: 32px;
     border-radius: 22px;
-    border: 3px solid #FFFFFF;
-    margin-right: 12px;
+    border: 3px solid #fff;
+    margin-right: 12px; 
 `
 
 export const NameText = styled.div`
-    font-family: 'Open Sans';
+    font-family: 'Opens Sans';
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 25px;
-    color: #FFFFFF;
-` 
+    color: #fff;
+`
 
 export const Progress = styled.div`
     width: 180px;
     height: 6px;
-    background-color: #FFFFFF;
+    background-color: #fff;
     border-radius: 3px;
     position: relative;
 
@@ -38,6 +38,6 @@ export const Progress = styled.div`
         width: ${({percentual}) => percentual}%;
         height: 6px;
         border-radius: 3px;
-        background-color: #23DD7A;
+        background-color: #23dd7a; 
     }
-` 
+`

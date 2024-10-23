@@ -5,13 +5,12 @@ export const Container = styled.main`
     max-width: 80%;
     margin: 0 auto;
     margin-top: 120px;
-
+    
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 `
-
 
 export const Title = styled.h2`
     font-family: 'Open Sans';
@@ -21,12 +20,11 @@ export const Title = styled.h2`
     width: 320px;
     margin-bottom: 20px;
     line-height: 44px;
-
-    color: #FFFFFF;
+    color: #fff;
 `
 
-export const TitleHighlight = styled.span`
-    color: #E4105D;;
+export const TitleHighLight = styled.span`
+    color: #e41065;
 `
 
 export const TextContent = styled.p`
@@ -34,10 +32,8 @@ export const TextContent = styled.p`
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    line-height: 22px;
     width: 420px;
-
     margin-bottom: 20px;
-
-    color: #FFFFFF;
+    line-height: 22px;
+    color: #fff;
 `
